@@ -17,7 +17,7 @@ UKF::UKF() {
   use_laser_ = true;
 
   // if this is false, radar measurements will be ignored (except during init)
-  use_radar_ = false;
+  use_radar_ = true;
 
   // initial state vector
   x_ = VectorXd(5);
@@ -81,6 +81,8 @@ void UKF::ProcessMeasurement(MeasurementPackage meas_package) {
    *  Initialization
    ****************************************************************************/
   if (!is_initialized_) {
+    P_ << 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1;
+
     if (meas_package.sensor_type_ == MeasurementPackage::RADAR) {
       /**
        Convert radar from polar to cartesian coordinates and initialize state.
@@ -270,7 +272,7 @@ void UKF::UpdateGenericUKF(MatrixXd& Zsig, int n_z,
   if (meas_package.sensor_type_ == MeasurementPackage::RADAR) {
     R << std_radr_ * std_radr_, 0, 0, 0, std_radphi_ * std_radphi_, 0, 0, 0, std_radrd_
         * std_radrd_;
-  } else {
+  } else if (meas_package.sensor_type_ == MeasurementPackage::LASER) {
     R << std_laspx_ * std_laspx_, 0, 0, std_laspy_ * std_laspy_;
   }
   S = S + R;
@@ -314,6 +316,14 @@ void UKF::UpdateGenericUKF(MatrixXd& Zsig, int n_z,
   //update state mean and covariance matrix
   x_ = x_ + K * z_diff;
   P_ = P_ - K * S * K.transpose();
+
+  if (meas_package.sensor_type_ == MeasurementPackage::RADAR) { // Radar
+    double nis_radar = z_diff.transpose() * S.inverse() * z_diff;
+    std::cout << "nis-radar" << "\t" << nis_radar << std::endl;
+  } else if (meas_package.sensor_type_ == MeasurementPackage::LASER) { // Lidar
+    double nis_laser = z_diff.transpose() * S.inverse() * z_diff;
+    std::cout << "nis-laser" << "\t" << nis_laser << std::endl;
+  }
 }
 
 void UKF::GenerateSigmaPoints(VectorXd& x_aug, MatrixXd& P_aug,
