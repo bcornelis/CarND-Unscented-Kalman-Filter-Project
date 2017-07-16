@@ -1,7 +1,7 @@
 [//]: # (Image References)
 [final_screenshot]: ./result.png
-[graph_radar]: ./graphs/nis_radar_graph
-[graph_laser]: ./graphs/nis_laser_graph
+[graph_radar]: ./graphs/radar.png
+[graph_laser]: ./graphs/laser.png
 
 # Unscented Kalman Filter Project Starter Code
 Self-Driving Car Engineer Nanodegree Program
