@@ -93,6 +93,9 @@ To run the project:
 1. Start the simulator using: LC_ALL=C ./term2_sim.x86_64
 2. Generate the Eclipse CDT project using: cmake -G"Eclipse CDT4" -DCMAKE_BUILD_TYPE=Debug
 3. Build and start the project using: ./UnscentedKF > output.log
+4. Fot plotting the following graphs, gnuplot scripts have been provided. They can be run like this (in the graphs subdir):
+  * gnuplot nis_radar_graph
+  * gnuplot nis_laser_graph
 
 The plotted NIS-radar values look like this:
 ![alt text][graph_radar]
