@@ -1,0 +1,5 @@
+set term png
+set output "laser.png"
+set datafile separator "\t"
+set yrange [0:20]
+plot 'output_laser.log' u 2 title 'Laser NIS', 5.991 title 'Laser 95%'

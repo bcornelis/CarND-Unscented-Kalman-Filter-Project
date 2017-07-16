@@ -1,0 +1,5 @@
+set term png
+set output "radar.png"
+set datafile separator "\t"
+set yrange [0:20]
+plot 'output_radar.log' u 2 title 'Radar NIS', 7.815 title 'Radar 95%'
